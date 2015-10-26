@@ -2,8 +2,11 @@ package it.jaschke.alexandria.services;
 
 import android.app.IntentService;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -19,6 +22,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import it.jaschke.alexandria.AddBook;
+import it.jaschke.alexandria.BookDetail;
 import it.jaschke.alexandria.MainActivity;
 import it.jaschke.alexandria.R;
 import it.jaschke.alexandria.data.AlexandriaContract;
@@ -63,6 +68,7 @@ public class BookService extends IntentService {
     private void deleteBook(String ean) {
         if(ean!=null) {
             getContentResolver().delete(AlexandriaContract.BookEntry.buildBookUri(Long.parseLong(ean)), null, null);
+            sendActionEvent(BookDetail.ACTION_EVENT_BOOK_DELETED);
         }
     }
 
@@ -72,10 +78,11 @@ public class BookService extends IntentService {
      */
     private void fetchBook(String ean) {
 
-        if(ean.length()!=13){
+        if(ean == null || ean.length()!=13){
             return;
         }
 
+        // Check for book in local DB.
         Cursor bookEntry = getContentResolver().query(
                 AlexandriaContract.BookEntry.buildBookUri(Long.parseLong(ean)),
                 null, // leaving "columns" null just returns all the columns.
@@ -84,12 +91,21 @@ public class BookService extends IntentService {
                 null  // sort order
         );
 
-        if(bookEntry.getCount()>0){
+        // Will throw NPE in case bookEntry was null but no rows were found.
+        if(bookEntry != null) {
+            int booksCount = bookEntry.getCount();
             bookEntry.close();
-            return;
+            if(booksCount>0){
+                sendActionEvent(AddBook.ACTION_DATA_EVENT);
+                return;
+            }
         }
 
-        bookEntry.close();
+        // Check for network connectivity in case we try to search for the book online.
+        if(!checkNetworkAvailable()) {
+            sendMessageToMainActivity(R.string.network_unavailable);
+            return;
+        }
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -128,8 +144,12 @@ public class BookService extends IntentService {
                 return;
             }
             bookJsonString = buffer.toString();
-        } catch (Exception e) {
+        } catch (IOException e) {
+
+            sendMessageToMainActivity(R.string.books_service_down);
+
             Log.e(LOG_TAG, "Error ", e);
+            return;
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -162,9 +182,7 @@ public class BookService extends IntentService {
             if(bookJson.has(ITEMS)){
                 bookArray = bookJson.getJSONArray(ITEMS);
             }else{
-                Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
-                messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.not_found));
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+                sendMessageToMainActivity(R.string.not_found);
                 return;
             }
 
@@ -196,9 +214,36 @@ public class BookService extends IntentService {
                 writeBackCategories(ean,bookInfo.getJSONArray(CATEGORIES) );
             }
 
+            sendActionEvent(AddBook.ACTION_DATA_EVENT);
+
         } catch (JSONException e) {
+            sendMessageToMainActivity(R.string.invalid_server);
             Log.e(LOG_TAG, "Error ", e);
         }
+    }
+
+    /**
+     * Check weather we are connected to the network or not.
+     * @return  true if network is available.
+     */
+    private boolean checkNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+
+        return ni != null && ni.isConnectedOrConnecting();
+
+    }
+
+    private void sendMessageToMainActivity(int stringId) {
+        Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+        messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(stringId));
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+    }
+
+    private void sendActionEvent(String action) {
+        Intent actionIntent = new Intent(action);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(actionIntent);
     }
 
     private void writeBackBook(String ean, String title, String subtitle, String desc, String imgUrl) {

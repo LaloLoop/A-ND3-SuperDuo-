@@ -20,8 +20,11 @@ import android.widget.Toast;
 import it.jaschke.alexandria.api.Callback;
 
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
+public class MainActivity extends ActionBarActivity implements
+        NavigationDrawerFragment.NavigationDrawerCallbacks, Callback,
+        BookDetail.BookDetailCallback{
 
+    private static final String DETAIL_FRAGMENT = "DETAIL_BOOK_F";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -80,9 +83,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         }
 
+        // Do not add to back stack to prevent confusion.
         fragmentManager.beginTransaction()
                 .replace(R.id.container, nextFragment)
-                .addToBackStack((String) title)
                 .commit();
     }
 
@@ -134,21 +137,36 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onItemSelected(String ean) {
-        Bundle args = new Bundle();
-        args.putString(BookDetail.EAN_KEY, ean);
-
-        BookDetail fragment = new BookDetail();
-        fragment.setArguments(args);
-
         int id = R.id.container;
+
         if(findViewById(R.id.right_container) != null){
             id = R.id.right_container;
         }
+
+        Bundle args = new Bundle();
+        args.putString(BookDetail.EAN_KEY, ean);
+        args.putBoolean(BookDetail.TWO_PANE_MODE, IS_TABLET);
+
+        BookDetail fragment = BookDetail. newInstance(this);
+        fragment.setArguments(args);
+
+        // Stack get replaced with invalid view when changing between items in list. Did not add
+        // to back stack.
         getSupportFragmentManager().beginTransaction()
-                .replace(id, fragment)
-                .addToBackStack("Book Detail")
+                .replace(id, fragment, DETAIL_FRAGMENT)
                 .commit();
 
+    }
+
+    @Override
+    public void onBookDeleted() {
+        // Change to list of books.
+        onNavigationDrawerItemSelected(0);
+        // Remove fragment if available
+        if(findViewById(R.id.right_container)!=null) {
+            Fragment dFrag = getSupportFragmentManager().findFragmentByTag(DETAIL_FRAGMENT);
+            getSupportFragmentManager().beginTransaction().remove(dFrag).commit();
+        }
     }
 
     private class MessageReciever extends BroadcastReceiver {
@@ -161,7 +179,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     public void goBack(View view){
-        getSupportFragmentManager().popBackStack();
+        onNavigationDrawerItemSelected(0);
     }
 
     private boolean isTablet() {

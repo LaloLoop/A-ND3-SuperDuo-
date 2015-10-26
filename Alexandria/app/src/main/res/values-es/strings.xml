@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about">Acerca de</string>
+    <string name="about_text">Esta aplicación obtiene información de los libros desde la API de Google. Todos los títulos, cubiertas e información de autores proviene de ahí. La versión original de esta aplicación fue hecha por Sascha Jaschke, y una versión modificada se entreaga a los estudiantes de programa Android Nanodegree de Udacity.</string>
+    <string name="action_settings">Preferencias</string>
+    <string name="action_share">Compartir</string>
+    <string name="back_button">Atrás</string>
+    <string name="book_cover">Cubierta del libro</string>
+    <string name="books">Lista de libros</string>
+    <string name="books_service_down">El servicio de libros no está disponible en este momento.</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="delete">Eliminar Libro</string>
+    <string name="input_hint">Inerte el ISBN-13. Sólo dígitos.</string>
+    <string name="invalid_server">Búsque actualizaciones para la app Alexandria.</string>
+    <string name="low_storage_error">Las dependencias para detección de códigos no pueden ser descargadas por falta de especio de almacenamiento en el dispositivo.</string>
+    <string name="navigation_drawer_close">Cerrar panel de navegación</string>
+    <string name="navigation_drawer_open">Abrir panel de navegación</string>
+    <string name="network_unavailable">La red no está disponible, verifice su conexión a Internet</string>
+    <string name="not_found">Libro no encontrado</string>
+    <string name="ok">Aceptar</string>
+    <string name="ok_button">Siguiente</string>
+    <string name="permission_camera_rationale">Se requiere acceso a la cámara para escanear códigos de barras.</string>
+    <string name="permission_error_dialog_msg">Esta aplicación no puede escanear códigos, ya que no cuenta con los permisos necesarios.</string>
+    <string name="permission_error_dialog_title">Escaneado de código</string>
+    <string name="pref_startScreen">Seleccionar pantalla de inicio</string>
+    <string name="scan">Escanear/Añadir libro</string>
+    <string name="scan_button">Escanear</string>
+    <string name="search">Buscar</string>
+    <string name="share_text">Un libro que tienes que leer</string>
+    <string name="title_activity_barcode_scan">Escanear código de barras</string>
+    <string name="title_activity_settings">Preferencias</string>
+    <string name="sb_title_point_camera">Apunta la cámara al código de barras a escanear</string>
+</resources>

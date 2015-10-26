@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Alexandria</string>
+    <string name="app_name" translatable="false">Alexandria</string>
 
     <!-- Menu Items -->
     <string name="books">List of Books</string>
@@ -16,7 +16,7 @@
 
     <string name="ok_button">Next</string>
     <string name="cancel_button">Cancel</string>
-    <string name="not_found">No Book found</string>
+    <string name="not_found">Book not found</string>
     <string name="search">Search</string>
     <string name="delete">Delete Book</string>
     <string name="pref_startScreen">Select Startscreen</string>
@@ -25,7 +25,16 @@
     <string name="back_button">go back</string>
     <string name="share_text">A must read book: </string>
 
-<!-- TODO: Remove or change this placeholder text -->
     <string name="about_text">This application gets book information from a Google API. All titles, cover images, and author information come from there.
     The original version of this app was built by Sascha Jaschke, and a modified version is given to students in the Udacity Android Nanodegree program. </string>
+    <string name="title_activity_barcode_scan">Scan Barcode</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for barcode scanning</string>
+    <string name="ok">Ok</string>
+    <string name="permission_error_dialog_title">Barcode Scanning</string>
+    <string name="permission_error_dialog_msg">The app cannot scan codes because it does not have the required permission.</string>
+    <string name="low_storage_error">Barcode detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="books_service_down">Books\' service is not available at the moment</string>
+    <string name="invalid_server">Check for updates for Alexandria App</string>
+    <string name="network_unavailable">Network not available, verify your Internet connection</string>
+    <string name="sb_title_point_camera">Point your camera to the barcode to scan</string>
 </resources>
