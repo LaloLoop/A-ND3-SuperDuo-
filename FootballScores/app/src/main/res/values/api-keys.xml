@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Place your API key here
+        You can get one at:
+        http://api.football-data.org/register
+     -->
+    <string name="api_key" translatable="false"></string>
+</resources>
