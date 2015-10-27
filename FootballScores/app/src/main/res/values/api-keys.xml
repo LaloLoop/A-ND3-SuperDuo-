@@ -5,5 +5,5 @@
         You can get one at:
         http://api.football-data.org/register
      -->
-    <string name="api_key" translatable="false">***REMOVED***</string>
+    <string name="api_key" translatable="false"></string>
 </resources>
