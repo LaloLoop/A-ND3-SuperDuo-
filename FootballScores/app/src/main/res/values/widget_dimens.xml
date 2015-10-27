@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Large widget dimensions -->
+    <dimen name="widget_today_padding">0dp</dimen>
+    <dimen name="widget_today_large_score_size">35sp</dimen>
+    <dimen name="widget_today_large_logo_size">60dp</dimen>
+
+    <!-- Widget min size -->
+    <dimen name="widget_today_min_height">180dp</dimen>
+    <dimen name="widget_today_min_width">220dp</dimen>
+
+    <!-- Widget default sizes -->
+    <dimen name="widget_today_default_height">180dp</dimen>
+    <dimen name="widget_today_default_width">250dp</dimen>
+
+</resources>

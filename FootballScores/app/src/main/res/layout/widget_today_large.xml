@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_today_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/widget_main_view">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:background="@color/primary"
+            android:textColor="@android:color/white"
+            android:padding="@dimen/activity_horizontal_margin"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green09">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/home_score"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="@dimen/widget_today_large_score_size"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/primary_text"
+                    tools:text="1" />
+
+
+                <TextView
+                    android:id="@+id/away_score"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="35sp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/primary_text"
+                    tools:text="1"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/no_score_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/no_goals_info"
+                android:gravity="center"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:background="@color/primary_dark">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:id="@+id/home_crest"
+                    android:layout_width="@dimen/widget_today_large_logo_size"
+                    android:layout_height="@dimen/widget_today_large_logo_size"
+                    tools:src="@drawable/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/home_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Newcastle United FC"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/away_crest"
+                    android:layout_width="@dimen/widget_today_large_logo_size"
+                    android:layout_height="@dimen/widget_today_large_logo_size"
+                    tools:src="@drawable/ic_launcher"/>
+
+                <TextView
+                    android:id="@id/away_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    tools:text="Real Sociedad de Fútbol"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/data_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            tools:text="06:00"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:background="@color/red01"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+</FrameLayout>
