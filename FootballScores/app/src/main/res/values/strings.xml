@@ -42,5 +42,8 @@
     <string name="cd_match_date">Match date: <xliff:g id="match_date">%s</xliff:g></string>
     <string name="no_goals_info">No goals information</string>
 
+    <!-- Widgets -->
+    <string name="widget_today_desc">Today\'s Match</string>
+
 
 </resources>

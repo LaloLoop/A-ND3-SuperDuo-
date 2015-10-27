@@ -40,7 +40,7 @@
         <!-- Today widget -->
         <receiver
             android:name=".widget.TodayMatchWidgetProvider"
-            android:label="Today's Match">
+            android:label="@string/widget_today_desc">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
