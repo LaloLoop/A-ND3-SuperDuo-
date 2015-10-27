@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Resultados de partidos</string>
+    <string name="about">Acerca de</string>
+    <string name="about_text">Esta Aplicación obtiene los resultados de partidos de Futbol para la Premier League, Serie A, Bundesliga, Primera División y UEFA Champions League. Todos los datos son adquiridos de la API gratuita de football-data.org. Todos los logos de los equipos se obtienen de http://hdlogo.wordpress.com/ previa petición de permisos del dueño. La versión original de esta aplicación fue creada por Yahia Khalid Ibn El Walid Ahmed, y una versión modificada se les entrega a los estudiantes del programa Android Nanodegree de Udacity. Para reportar cualquier error, o sugerencias, no dude ene enviar sus dudas a ibnelwalid@gmail.com. En los periodos que no hay temporadas, se usarán datos falsos para la app.</string>
+    <string name="action_settings">Preferencias</string>
+    <string name="cd_away">Visitante</string>
+    <string name="cd_away_score">Goles de visitante</string>
+    <string name="cd_home">Local</string>
+    <string name="cd_home_score">Goles de local</string>
+    <string name="cd_match_date">Fecha del partido</string>
+    <string name="final_text">Final</string>
+    <string name="first_knockout_round">Primera ronda</string>
+    <string name="group_stage_text">Fase de grupos</string>
+    <string name="matchday_text">Día del partido</string>
+    <string name="no_goals_info">No hay información de los goles</string>
+    <string name="share_text">Compartir</string>
+    <string name="title_activity_about">Acerca de</string>
+    <string name="today">Hoy</string>
+    <string name="tomorrow">Mañana</string>
+    <string name="yesterday">Ayer</string>
+</resources>
