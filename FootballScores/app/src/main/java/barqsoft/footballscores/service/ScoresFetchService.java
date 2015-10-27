@@ -28,13 +28,16 @@ import barqsoft.footballscores.R;
 /**
  * Created by yehya khaled on 3/2/2015.
  */
-public class myFetchService extends IntentService
+public class ScoresFetchService extends IntentService
 {
-    public static final String LOG_TAG = "myFetchService";
-    public myFetchService()
+    public static final String LOG_TAG = "ScoresFetchService";
+    public static final String ACTION_DATA_UPDATED = "barqsoft.footballscores.ACTION_DATA_UPDATED";
+
+    public ScoresFetchService()
     {
-        super("myFetchService");
+        super("ScoresFetchService");
     }
+
 
     @Override
     protected void onHandleIntent(Intent intent)
@@ -90,7 +93,7 @@ public class myFetchService extends IntentService
         }
         catch (Exception e)
         {
-            Log.e(LOG_TAG,"Exception here" + e.getMessage());
+            Log.e(LOG_TAG,"Exception here " + e.getMessage());
         }
         finally {
             if(m_connection != null)
@@ -265,6 +268,9 @@ public class myFetchService extends IntentService
             inserted_data = mContext.getContentResolver().bulkInsert(
                     DatabaseContract.BASE_CONTENT_URI,insert_data);
 
+            // TODO notify extra listeners for data change.
+            updateWidgets();
+
             //Log.v(LOG_TAG,"Succesfully Inserted : " + String.valueOf(inserted_data));
         }
         catch (JSONException e)
@@ -272,6 +278,12 @@ public class myFetchService extends IntentService
             Log.e(LOG_TAG,e.getMessage());
         }
 
+    }
+
+    private void updateWidgets() {
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                .setPackage(this.getPackageName());
+        this.sendBroadcast(dataUpdatedIntent);
     }
 }
 
