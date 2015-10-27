@@ -1,44 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="4dp"
-    android:background="@drawable/list_item"
-    >
+    android:background="@drawable/list_item">
+
     <LinearLayout
-        android:orientation="horizontal" android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
+        android:padding="@dimen/activity_horizontal_margin"
         >
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/list_icon_side"
+                android:layout_height="@dimen/list_icon_side"
                 android:layout_gravity="center"
-                android:id="@+id/home_crest"/>
+                android:id="@+id/home_crest"
+                tools:src="@drawable/no_icon"/>
+
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:textSize="@dimen/TeamNames"
                 android:gravity="center"
-                android:text="@string/test_text"
-                android:id="@+id/home_name"/>
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                tools:text="FC Internazionale Milano"
+                android:id="@+id/home_name" />
+
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="@string/test_text"
+                tools:text="0 - 0"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="@dimen/Score"
@@ -47,37 +61,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="@string/test_text"
+                tools:text="13:30"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:id="@+id/data_textview"/>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/list_icon_side"
+                android:layout_height="@dimen/list_icon_side"
                 android:layout_gravity="center"
-                android:id="@+id/away_crest"/>
+                android:id="@+id/away_crest"
+                tools:src="@drawable/no_icon"/>
+
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/test_text"
+                tools:text="PSV Eindhoven"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:textSize="@dimen/TeamNames"
                 android:id="@+id/away_name"/>
+
         </LinearLayout>
+
     </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/details_fragment_container">
     </FrameLayout>
+
 </LinearLayout>
 
 

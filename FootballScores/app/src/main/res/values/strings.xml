@@ -41,9 +41,17 @@
     <string name="cd_away_score">Away score: <xliff:g id="home_name">%s</xliff:g></string>
     <string name="cd_match_date">Match date: <xliff:g id="match_date">%s</xliff:g></string>
     <string name="no_goals_info">No goals information</string>
+    <string name="cd_match_time">Match time: <xliff:g id="match_time">%s</xliff:g></string>
+    <string name="cd_scores"><xliff:g id="home_goals">%d</xliff:g> goals from <xliff:g id="home_name">%s</xliff:g>,
+        <xliff:g id="away_goals">%d</xliff:g> goals from <xliff:g id="away_name">%s</xliff:g></string>
+    <string name="cd_no_scores">Home: <xliff:g id="home_name">%s</xliff:g>, Away: <xliff:g id="away_name">%s</xliff:g>.
+        No scores information</string>
 
     <!-- Widgets -->
     <string name="widget_today_desc">Today\'s Match</string>
+    <string name="cd_home_crest">Home crest</string>
+    <string name="cd_away_crest">Away crest</string>
+    <string name="cd_share_button">Share match information</string>
 
 
 </resources>

@@ -9,6 +9,7 @@
     <string name="cd_home">Local: <xliff:g id="home_name">%s</xliff:g></string>
     <string name="cd_home_score">Goles de local: <xliff:g id="home_name">%s</xliff:g></string>
     <string name="cd_match_date">Fecha del partido: <xliff:g id="match_date">%s</xliff:g></string>
+    <string name="cd_match_time">Hora del partido: <xliff:g id="match_time">%s</xliff:g></string>
     <string name="final_text">Final</string>
     <string name="first_knockout_round">Primera ronda</string>
     <string name="group_stage_text">Fase de grupos</string>
@@ -20,4 +21,12 @@
     <string name="tomorrow">Mañana</string>
     <string name="yesterday">Ayer</string>
     <string name="widget_today_desc">Partido de hoy</string>
+    <string name="cd_away_crest">Escudo de visitante</string>
+    <string name="cd_home_crest">Escudo de local</string>
+    <string name="cd_scores"><xliff:g id="home_goals">%d</xliff:g> goles de <xliff:g id="home_name">%s</xliff:g>,
+        <xliff:g id="away_goals">%d</xliff:g> goles de <xliff:g id="away_name">%s</xliff:g></string>
+    <string name="cd_no_scores">Local: <xliff:g id="home_name">%s</xliff:g>, Visitante: <xliff:g id="away_name">%s</xliff:g>.
+        Sin información de los goles</string>
+    <string name="cd_share_button">Compartir la información del partido</string>
+
 </resources>
