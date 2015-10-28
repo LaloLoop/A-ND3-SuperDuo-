@@ -12,8 +12,8 @@
     <string name="premierleague" translatable="false">Premier League</string>
     <string name="primeradivison" translatable="false">Primera Division</string>
     <string name="seriaa" translatable="false">Serie A</string>
-    <string name="matchday_text">Match day</string>
-    <string name="group_stage_text">Group stages</string>
+    <string name="matchday_text">Match day: <xliff:g id="match_day">%s</xliff:g></string>
+    <string name="group_stage_text">Group stages, Match day: <xliff:g id="match_day">%s</xliff:g></string>
     <string name="first_knockout_round">First knockout round</string>
     <string name="quarter_final" translatable="false">Quarter Final</string>
     <string name="semi_final" translatable="false">Semi Final</string>
@@ -23,7 +23,7 @@
     <string name="title_activity_about">About</string>
     <string name="about_text">
         This Application get Football Matches Score for the Premier League,Seria A,Bundesliga,Primera Division
-        and the Uefa Champions League.
+        and the UEFA Champions League.
         All Matches data are acquired from football-data.org free API.
         All team Logos are acquired from http://hdlogo.wordpress.com/ upon requesting permission form the owner.
         The original version of this app was created by Yahia Khalid Ibn El Walid Ahmed, and a modified version is given to students in the Udacity Android Nanodegree program.
@@ -48,12 +48,12 @@
         No scores information</string>
     <string name="cd_match_day">Phase: <xliff:g id="match_day">%s</xliff:g></string>
     <string name="cd_league">League: <xliff:g id="match_day">%s</xliff:g></string>
-
-    <!-- Widgets -->
-    <string name="widget_today_desc">Today\'s Match</string>
     <string name="cd_home_crest">Home crest</string>
     <string name="cd_away_crest">Away crest</string>
     <string name="cd_share_button">Share match information</string>
 
+    <!-- Widgets -->
+    <string name="widget_today_desc">Today\'s Match</string>
+    <string name="error_not_known_league">Not known League Please report</string>
 
 </resources>
