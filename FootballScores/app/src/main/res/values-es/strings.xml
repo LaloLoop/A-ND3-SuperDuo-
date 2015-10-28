@@ -28,5 +28,7 @@
     <string name="cd_no_scores">Local: <xliff:g id="home_name">%s</xliff:g>, Visitante: <xliff:g id="away_name">%s</xliff:g>.
         Sin información de los goles</string>
     <string name="cd_share_button">Compartir la información del partido</string>
+    <string name="cd_match_day">Fase: <xliff:g id="match_day">%s</xliff:g></string>
+    <string name="cd_league">Liga: <xliff:g id="match_day">%s</xliff:g></string>
 
 </resources>

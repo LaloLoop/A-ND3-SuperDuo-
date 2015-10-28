@@ -46,6 +46,8 @@
         <xliff:g id="away_goals">%d</xliff:g> goals from <xliff:g id="away_name">%s</xliff:g></string>
     <string name="cd_no_scores">Home: <xliff:g id="home_name">%s</xliff:g>, Away: <xliff:g id="away_name">%s</xliff:g>.
         No scores information</string>
+    <string name="cd_match_day">Phase: <xliff:g id="match_day">%s</xliff:g></string>
+    <string name="cd_league">League: <xliff:g id="match_day">%s</xliff:g></string>
 
     <!-- Widgets -->
     <string name="widget_today_desc">Today\'s Match</string>
