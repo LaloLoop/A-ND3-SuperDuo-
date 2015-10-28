@@ -95,13 +95,13 @@ public class ScoresAdapter extends CursorAdapter
                     , ViewGroup.LayoutParams.MATCH_PARENT));
             TextView match_day = (TextView) v.findViewById(R.id.matchday_textview);
 
-            String phase = Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY),
+            String phase = Utilies.getMatchDay(context, cursor.getInt(COL_MATCHDAY),
                     cursor.getInt(COL_LEAGUE));
             match_day.setText(phase);
             match_day.setContentDescription(context.getString(R.string.cd_match_day, phase));
 
             TextView league = (TextView) v.findViewById(R.id.league_textview);
-            String leagueStr = Utilies.getLeague(cursor.getInt(COL_LEAGUE));
+            String leagueStr = Utilies.getLeague(context, cursor.getInt(COL_LEAGUE));
             league.setText(leagueStr);
             league.setContentDescription(context.getString(R.string.cd_league, leagueStr));
 
