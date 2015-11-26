@@ -63,6 +63,7 @@ public class ScoresFetchService extends IntentService
         String JSON_data = null;
         //Opening Connection
         try {
+            Log.i(LOG_TAG, "URL:" + fetch_build.toString());
             URL fetch = new URL(fetch_build.toString());
             m_connection = (HttpURLConnection) fetch.openConnection();
             m_connection.setRequestMethod("GET");
@@ -148,8 +149,9 @@ public class ScoresFetchService extends IntentService
         final String SEGUNDA_DIVISION = "400";
         final String SERIE_A = "401";
         final String PRIMERA_LIGA = "402";
-        final String Bundesliga3 = "403";
+        final String BUNDESLIGA3 = "403";
         final String EREDIVISIE = "404";
+        final String CHMPSLEAGE = "405";
 
 
         final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
@@ -197,9 +199,16 @@ public class ScoresFetchService extends IntentService
                 // If it doesn't, that can cause an empty DB, bypassing the dummy data routine.
                 if(     League.equals(PREMIER_LEAGUE)      ||
                         League.equals(SERIE_A)             ||
+                        League.equals(LIGUE1)             ||
+                        League.equals(LIGUE2)             ||
                         League.equals(BUNDESLIGA1)         ||
                         League.equals(BUNDESLIGA2)         ||
-                        League.equals(PRIMERA_DIVISION)     )
+                        League.equals(PRIMERA_LIGA)         ||
+                        League.equals(EREDIVISIE)         ||
+                        League.equals(BUNDESLIGA3)         ||
+                        League.equals(SEGUNDA_DIVISION)         ||
+                        League.equals(PRIMERA_DIVISION)    ||
+                        League.equals(CHMPSLEAGE)           )
                 {
                     match_id = match_data.getJSONObject(LINKS).getJSONObject(SELF).
                             getString("href");
@@ -249,17 +258,10 @@ public class ScoresFetchService extends IntentService
                     match_values.put(DatabaseContract.scores_table.AWAY_GOALS_COL,Away_goals);
                     match_values.put(DatabaseContract.scores_table.LEAGUE_COL,League);
                     match_values.put(DatabaseContract.scores_table.MATCH_DAY,match_day);
-                    //log spam
-
-                    //Log.v(LOG_TAG,match_id);
-                    //Log.v(LOG_TAG,mDate);
-                    //Log.v(LOG_TAG,mTime);
-                    //Log.v(LOG_TAG,Home);
-                    //Log.v(LOG_TAG,Away);
-                    //Log.v(LOG_TAG,Home_goals);
-                    //Log.v(LOG_TAG,Away_goals);
 
                     values.add(match_values);
+                } else {
+                    Log.w(LOG_TAG, "Unknown league: " + League);
                 }
             }
             int inserted_data = 0;

@@ -6,11 +6,11 @@
     <dimen name="widget_today_large_logo_size">60dp</dimen>
 
     <!-- Widget min size -->
-    <dimen name="widget_today_min_height">180dp</dimen>
+    <dimen name="widget_today_min_height">110dp</dimen>
     <dimen name="widget_today_min_width">220dp</dimen>
 
     <!-- Widget default sizes -->
-    <dimen name="widget_today_default_height">180dp</dimen>
+    <dimen name="widget_today_default_height">110dp</dimen>
     <dimen name="widget_today_default_width">250dp</dimen>
 
 </resources>

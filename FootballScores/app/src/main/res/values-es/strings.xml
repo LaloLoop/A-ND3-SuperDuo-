@@ -31,4 +31,6 @@
     <string name="yesterday">Ayer</string>
     <string name="widget_today_desc">Partido de hoy</string>
     <string name="error_not_known_league">Liga desconocida. Por favor reportelo</string>
+    <string name="no_scores_available">No hay información disponible de los partidos</string>
+    <string name="widget_detail_desc">Partidos de hoy</string>
 </resources>

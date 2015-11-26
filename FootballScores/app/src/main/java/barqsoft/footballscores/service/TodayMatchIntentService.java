@@ -12,9 +12,6 @@ import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import barqsoft.footballscores.DatabaseContract;
 import barqsoft.footballscores.MainActivity;
 import barqsoft.footballscores.R;
@@ -57,8 +54,7 @@ public class TodayMatchIntentService extends IntentService {
 
         if(ids != null && ids.length > 0) {
             Uri dataUri = DatabaseContract.scores_table.buildScoreWithDate();
-            SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
-            String date = mformat.format(new Date());
+            String date = Utilies.getTodayQueryDate();
             cursor = getContentResolver().query(dataUri, null, null, new String[]{date}, null);
         }
 

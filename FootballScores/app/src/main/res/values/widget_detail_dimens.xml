@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Toolbar for detail widget -->
+    <dimen name="widget_toolbar_height">48dp</dimen>
+
+    <!-- List item dimensions -->
+    <dimen name="widget_list_item_height">72dp</dimen>
+    <dimen name="widget_list_item_padding">8dp</dimen>
+    <dimen name="widget_list_icon_side">35dp</dimen>
+    <dimen name="widget_internal_margin">8dp</dimen>
+
+    <!-- Widget minimum sizes-->
+    <dimen name="widget_detail_min_height">@dimen/widget_detail_default_height</dimen>
+    <dimen name="widget_detail_min_width">220dp</dimen>
+
+    <!-- Widget detail default size -->
+    <dimen name="widget_detail_default_height">110dp</dimen>
+    <dimen name="widget_detail_default_width">250dp</dimen>
+
+    <!-- Margin for compatibility -->
+    <dimen name="widget_detail_margin">0dp</dimen>
+
+    <!-- Empty text padding -->
+    <dimen name="widget_empty_padding">16dp</dimen>
+
+</resources>

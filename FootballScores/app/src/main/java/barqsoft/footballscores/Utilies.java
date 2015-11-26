@@ -13,22 +13,38 @@ import java.util.Date;
  */
 public class Utilies
 {
-    public static final int SERIE_A = 357;
-    public static final int PREMIER_LEGAUE = 354;
-    public static final int CHAMPIONS_LEAGUE = 362;
-    public static final int PRIMERA_DIVISION = 358;
-    public static final int BUNDESLIGA = 351;
+    // Added new leagues and fixed numbers.
+    public static final int BUNDESLIGA1 = 394;
+    public static final int BUNDESLIGA2 = 395;
+    public static final int LIGUE1 = 396;
+    public static final int LIGUE2 = 397;
+    public static final int PREMIER_LEGAUE = 398;
+    public static final int PRIMERA_DIVISION = 399;
+    public static final int SEGUNDA_DIVISION = 400;
+    public static final int SERIE_A = 401;
+    public static final int PRIMERA_LIGA = 402;
+    public static final int BUNDESLIGA3 = 403;
+    public static final int EREDIVISIE = 404;
+    public static final int CHAMPIONS_LEAGUE = 405;
     private static final String LOG_TAG = Utilies.class.getSimpleName();
 
     public static String getLeague(Context context, int league_num)
     {
+        // Added new leagues to case.
         switch (league_num)
         {
-            case SERIE_A : return context.getString(R.string.seriaa);
+            case BUNDESLIGA1: return context.getString(R.string.bundesliga);
+            case BUNDESLIGA2: return context.getString(R.string.bundesliga2);
+            case LIGUE1: return context.getString(R.string.ligue1);
+            case LIGUE2: return context.getString(R.string.ligue2);
             case PREMIER_LEGAUE : return context.getString(R.string.premierleague);
-            case CHAMPIONS_LEAGUE : return context.getString(R.string.champions_league);
             case PRIMERA_DIVISION : return context.getString(R.string.primeradivison);
-            case BUNDESLIGA : return context.getString(R.string.bundesliga);
+            case SEGUNDA_DIVISION : return context.getString(R.string.segundadivision);
+            case SERIE_A : return context.getString(R.string.seriaa);
+            case PRIMERA_LIGA : return context.getString(R.string.primeraliga);
+            case BUNDESLIGA3 : return context.getString(R.string.bundesliga3);
+            case EREDIVISIE : return context.getString(R.string.eredivisie);
+            case CHAMPIONS_LEAGUE : return context.getString(R.string.champions_league);
             default: return context.getString(R.string.error_not_known_league);
         }
     }
@@ -143,5 +159,16 @@ public class Utilies
             return 0;
         }
         return d.getTime();
+    }
+
+    public static String getTodayQueryDate() {
+        SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
+        return mformat.format(new Date());
+    }
+
+    public static String getDateForPage(int pagePosition) {
+        Date fragmentdate = new Date(System.currentTimeMillis()+((pagePosition-2)*86400000));
+        SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
+        return mformat.format(fragmentdate);
     }
 }
