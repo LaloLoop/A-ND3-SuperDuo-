@@ -25,6 +25,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     private String[] fragmentdate = new String[1];
     private int last_selected_item = -1;
 
+    private final String FRAGMENT_DATE_KEY = "f_d_key";
+
     public MainScreenFragment()
     {
     }
@@ -43,11 +45,22 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
                              final Bundle savedInstanceState) {
         update_scores();
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
         final ListView score_list = (ListView) rootView.findViewById(R.id.scores_list);
         mAdapter = new ScoresAdapter(getActivity(),null,0);
+
         score_list.setAdapter(mAdapter);
+
+        // Fixes issue with rotation of the app.
+        // Restore fragment date if available.
+        if(savedInstanceState != null) {
+            fragmentdate = savedInstanceState.getStringArray(FRAGMENT_DATE_KEY);
+        }
+
         getLoaderManager().initLoader(SCORES_LOADER,null,this);
+
         mAdapter.detail_match_id = MainActivity.selected_match_id;
+
         score_list.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -67,6 +80,12 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     {
         return new CursorLoader(getActivity(),DatabaseContract.scores_table.buildScoreWithDate(),
                 null,null,fragmentdate,null);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putStringArray(FRAGMENT_DATE_KEY, fragmentdate);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
