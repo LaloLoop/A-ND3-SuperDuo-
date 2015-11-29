@@ -13,7 +13,7 @@ import android.widget.RemoteViews;
 import barqsoft.footballscores.MainActivity;
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.service.DetailWidgetRemoteViewsService;
-import barqsoft.footballscores.service.ScoresFetchService;
+import barqsoft.footballscores.sync.ScoresSyncAdapter;
 
 /**
  * Detail Football Scores provider
@@ -67,7 +67,7 @@ public class DetailWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if(ScoresFetchService.ACTION_DATA_UPDATED.equals(intent.getAction())) {
+        if(ScoresSyncAdapter.ACTION_DATA_UPDATED.equals(intent.getAction())) {
             AppWidgetManager manager = AppWidgetManager.getInstance(context);
             ComponentName component = new ComponentName(context, DetailWidgetProvider.class);
             int[] appWidgetIds = manager.getAppWidgetIds(component);

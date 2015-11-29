@@ -1,10 +1,18 @@
-package barqsoft.footballscores.service;
+package barqsoft.footballscores.sync;
 
-import android.app.IntentService;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.AbstractThreadedSyncAdapter;
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SyncRequest;
+import android.content.SyncResult;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -26,28 +34,108 @@ import barqsoft.footballscores.DatabaseContract;
 import barqsoft.footballscores.R;
 
 /**
- * Created by yehya khaled on 3/2/2015.
+ * Football scores SyncAdapter
+ * Created by lalo on 28/11/15.
  */
-public class ScoresFetchService extends IntentService
-{
-    public static final String LOG_TAG = "ScoresFetchService";
+public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
+
+    public static final String LOG_TAG = ScoresSyncAdapter.class.getSimpleName();
+
+    /* Interval to sync with football scores API */
+    public static final int SYNC_INTERVAL = 60 * 100;
+    public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+
+    // Action to update data on other places
     public static final String ACTION_DATA_UPDATED = "barqsoft.footballscores.ACTION_DATA_UPDATED";
 
-    public ScoresFetchService()
-    {
-        super("ScoresFetchService");
+    public ScoresSyncAdapter(Context context, boolean autoInitialize) {
+        super(context, autoInitialize);
     }
-
 
     @Override
-    protected void onHandleIntent(Intent intent)
-    {
+    public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        Log.i(LOG_TAG, "Performing Sync");
+        // Get data for next to days
         getData("n2");
+        // Get data for previous 2 days.
         getData("p2");
-
-        return;
     }
 
+    public static void syncImmediately(Context context) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(getSyncAccount(context),
+                context.getString(R.string.content_authority), bundle);
+    }
+
+    /**
+     * Helper method to have the sync adapter syn immediately
+     * @param context   Context used to access the account service.
+     */
+    private static Account getSyncAccount(Context context) {
+        // Get instance of Android AccountManager.
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+
+        // Create the account type and default account.
+        Account newAccount = new Account(
+                context.getString(R.string.app_name),
+                context.getString(R.string.sync_account_type)
+        );
+
+        // If password does not exist account does not exist.
+        if (null == accountManager.getPassword(newAccount)) {
+            /* Add the account and account type, no password or user data.
+             * If successful, return the Account object, otherwise report an error.
+             */
+            if(!accountManager.addAccountExplicitly(newAccount, "", null)) {
+                return null;
+            }
+
+            onAccountCreated(newAccount, context);
+        }
+        return newAccount;
+    }
+
+    /**
+     * After the account is first created, the sync starts immediately
+     * @param newAccount    Account created
+     * @param context       App Context
+     */
+    private static void onAccountCreated(Account newAccount, Context context) {
+        ScoresSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+        ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
+        syncImmediately(context);
+    }
+
+    public static void initializeSyncAdapter(Context context) {
+        Log.d(ScoresSyncAdapter.class.getSimpleName(), "InitializeSyncAdapter");
+        getSyncAccount(context);
+    }
+
+    /**
+     * Configure periodic syncs.
+     */
+    public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
+        Account account = getSyncAccount(context);
+        String authority = context.getString(R.string.content_authority);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // We can enable inexact timers in our periodic sync.
+            SyncRequest request = new SyncRequest.Builder().
+                    syncPeriodic(syncInterval, flexTime).
+                    setSyncAdapter(account, authority).
+                    setExtras(new Bundle()).build();
+            ContentResolver.requestSync(request);
+        } else {
+            ContentResolver.addPeriodicSync(account,
+                    authority, new Bundle(), syncInterval);
+        }
+    }
+
+    /**
+     * Main method to get daeta from the web service
+     */
     private void getData (String timeFrame)
     {
         //Creating fetch URL
@@ -67,7 +155,7 @@ public class ScoresFetchService extends IntentService
             URL fetch = new URL(fetch_build.toString());
             m_connection = (HttpURLConnection) fetch.openConnection();
             m_connection.setRequestMethod("GET");
-            m_connection.addRequestProperty("X-Auth-Token",getString(R.string.api_key));
+            m_connection.addRequestProperty("X-Auth-Token", getContext().getString(R.string.api_key));
             m_connection.connect();
 
             // Read the input stream into a String
@@ -119,12 +207,12 @@ public class ScoresFetchService extends IntentService
                 if (matches.length() == 0) {
                     //if there is no data, call the function on dummy data
                     //this is expected behavior during the off season.
-                    processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
+                    processJSONdata(getContext().getString(R.string.dummy_data), getContext(), false);
                     return;
                 }
 
 
-                processJSONdata(JSON_data, getApplicationContext(), true);
+                processJSONdata(JSON_data, getContext(), true);
             } else {
                 //Could not Connect
                 Log.d(LOG_TAG, "Could not connect to server.");
@@ -135,6 +223,13 @@ public class ScoresFetchService extends IntentService
             Log.e(LOG_TAG,e.getMessage());
         }
     }
+
+    /**
+     * Process data from web service and store it into database
+     * @param JSONdata  String received from WS.
+     * @param mContext  Context of application.
+     * @param isReal
+     */
     private void processJSONdata (String JSONdata,Context mContext, boolean isReal)
     {
         //JSON data
@@ -282,10 +377,13 @@ public class ScoresFetchService extends IntentService
 
     }
 
+
+    /**
+     * Sends broadcast to updates widget information.
+     */
     private void updateWidgets() {
         Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
-                .setPackage(this.getPackageName());
-        this.sendBroadcast(dataUpdatedIntent);
+                .setPackage(getContext().getPackageName());
+        getContext().sendBroadcast(dataUpdatedIntent);
     }
 }
-

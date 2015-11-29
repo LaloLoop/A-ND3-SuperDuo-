@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import barqsoft.footballscores.sync.ScoresSyncAdapter;
+
 public class MainActivity extends ActionBarActivity
 {
     public static int selected_match_id;
@@ -14,6 +16,7 @@ public class MainActivity extends ActionBarActivity
     public static String LOG_TAG = "MainActivity";
     private final String save_tag = "Save Test";
     private PagerFragment my_main;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +28,9 @@ public class MainActivity extends ActionBarActivity
                     .add(R.id.container, my_main)
                     .commit();
         }
-    }
 
+        ScoresSyncAdapter.initializeSyncAdapter(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
