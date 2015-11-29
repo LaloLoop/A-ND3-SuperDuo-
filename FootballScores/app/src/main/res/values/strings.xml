@@ -82,4 +82,8 @@
     <string name="widget_detail_desc">Today\'s Matches</string>
     <string name="no_scores_available">No matches information available</string>
 
+    <!-- SyncAdapter related-->
+    <string name="sync_account_type" translatable="false">footballscores.barqsoft</string>
+    <string name="content_authority" translatable="false">barqsoft.footballscores</string>
+
 </resources>

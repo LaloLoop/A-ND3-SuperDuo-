@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import barqsoft.footballscores.service.TodayMatchIntentService;
-import barqsoft.footballscores.service.ScoresFetchService;
+import barqsoft.footballscores.sync.ScoresSyncAdapter;
 
 /**
  * Today / Latest widget provider
@@ -22,7 +22,7 @@ public class TodayMatchWidgetProvider extends AppWidgetProvider{
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if(ScoresFetchService.ACTION_DATA_UPDATED.equals(intent.getAction())) {
+        if(ScoresSyncAdapter.ACTION_DATA_UPDATED.equals(intent.getAction())) {
             context.startService(new Intent(context, TodayMatchIntentService.class));
         }
     }
