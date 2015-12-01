@@ -1,12 +1,18 @@
 package barqsoft.footballscores;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import barqsoft.footballscores.sync.ScoresSyncAdapter;
 
 /**
  * Created by yehya khaled on 3/3/2015.
@@ -170,5 +176,31 @@ public class Utilies
         Date fragmentdate = new Date(System.currentTimeMillis()+((pagePosition-2)*86400000));
         SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
         return mformat.format(fragmentdate);
+    }
+
+    /**
+     * Saves sync status to shared preferences.
+     * @param context       App context
+     * @param syncStatus  Sync status to save. Must be one of the defined in {@link ScoresSyncAdapter.SyncStatus}.
+     */
+    public static void saveSyncStatus(Context context, @ScoresSyncAdapter.SyncStatus int syncStatus) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(context.getString(R.string.pref_sync_status_key), syncStatus);
+        editor.commit();
+    }
+
+    public static int getSyncStatus(Context context) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getInt(context.getString(R.string.pref_sync_status_key),
+                ScoresSyncAdapter.SYNC_STATUS_UNKNOWN);
+    }
+
+    public static boolean checkNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return ni != null && ni.isConnectedOrConnecting();
     }
 }

@@ -71,7 +71,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
 
             // Revert back to our process' identity so we can work with our content ptovider.
             final long identityToken = Binder.clearCallingIdentity();
-            String date = Utilies.getDateForPage(1);
+            String date = Utilies.getTodayQueryDate();
             mCursor = getContentResolver().query(dataUri, mProjection, null,
                     new String[] { date }, null);
 
@@ -119,7 +119,18 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
 
                 rv.setTextViewText(R.id.date_textview, time);
 
-                // TODO Add content description to views.
+                String cdScores;
+                if(homeGoals < 0 || awayGoals < 0){
+                    cdScores = mContext.getString(R.string.cd_no_scores, homeName, awayName);
+                } else {
+                    cdScores = mContext
+                            .getString(R.string.cd_scores, homeGoals, homeName, awayGoals, awayName);
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                    rv.setContentDescription(R.id.widget_item, cdScores);
+                }
+
                 return rv;
             }
 
