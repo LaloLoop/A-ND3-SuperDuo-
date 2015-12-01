@@ -11,6 +11,7 @@
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="0"
     android:widgetCategory="home_screen|keyguard"
+    android:previewImage="@drawable/today_matches_widget"
     tools:ignore="UnusedAttribute">
 
 </appwidget-provider>
