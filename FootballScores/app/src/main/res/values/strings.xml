@@ -86,4 +86,14 @@
     <string name="sync_account_type" translatable="false">footballscores.barqsoft</string>
     <string name="content_authority" translatable="false">barqsoft.footballscores</string>
 
+    <!-- Sync status key for shared prefs -->
+    <string name="pref_sync_status_key" translatable="false">sync_status_key</string>
+
+    <!-- Error messages -->
+    <string name="no_network_available">The network is not available to fetch matches data</string>
+    <string name="scores_service_down">Scores service is not available at this moment</string>
+    <string name="check_for_updates">Check for updates for this app.</string>
+    <string name="invalid_sync">Sync process was invalid, pleas report.</string>
+    <string name="status_unknown">Sync status unknown</string>
+
 </resources>

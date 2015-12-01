@@ -33,4 +33,9 @@
     <string name="error_not_known_league">Liga desconocida. Por favor reportelo</string>
     <string name="no_scores_available">No hay información disponible de los partidos</string>
     <string name="widget_detail_desc">Partidos de hoy</string>
+    <string name="check_for_updates">Búsque una actualización para esta aplicación</string>
+    <string name="invalid_sync">El proceso de sincronización fue inválido, por favor reporte.</string>
+    <string name="no_network_available">La red no está disponible para descargar datos de los partidos.</string>
+    <string name="scores_service_down">El servicio de resultados no está disponible en este momento</string>
+    <string name="status_unknown">Estatus de sincronización desconocido</string>
 </resources>

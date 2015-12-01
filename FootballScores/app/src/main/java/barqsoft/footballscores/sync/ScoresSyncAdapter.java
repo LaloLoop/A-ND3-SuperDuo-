@@ -13,6 +13,7 @@ import android.content.SyncResult;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -23,6 +24,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -32,6 +35,7 @@ import java.util.Vector;
 
 import barqsoft.footballscores.DatabaseContract;
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.Utilies;
 
 /**
  * Football scores SyncAdapter
@@ -40,6 +44,17 @@ import barqsoft.footballscores.R;
 public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final String LOG_TAG = ScoresSyncAdapter.class.getSimpleName();
+
+    @IntDef({SYNC_STATUS_OK, SYNC_STATUS_SERVER_DOWN, SYNC_STATUS_SERVER_INVALID, SYNC_STATUS_UNKNOWN,
+            SYNC_STATUS_INVALID})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SyncStatus {}
+
+    public static final int SYNC_STATUS_OK = 0;
+    public static final int SYNC_STATUS_SERVER_DOWN = 1;
+    public static final int SYNC_STATUS_SERVER_INVALID = 2;
+    public static final int SYNC_STATUS_UNKNOWN = 3;
+    public static final int SYNC_STATUS_INVALID = 4;
 
     /* Interval to sync with football scores API */
     public static final int SYNC_INTERVAL = 60 * 100;
@@ -176,13 +191,15 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
             }
             if (buffer.length() == 0) {
                 // Stream was empty.  No point in parsing.
+                Utilies.saveSyncStatus(getContext(), SYNC_STATUS_SERVER_INVALID);
                 return;
             }
             JSON_data = buffer.toString();
         }
-        catch (Exception e)
+        catch (IOException e)
         {
-            Log.e(LOG_TAG,"Exception here " + e.getMessage());
+            Log.e(LOG_TAG, "Exception here " + e.getMessage());
+            Utilies.saveSyncStatus(getContext(), SYNC_STATUS_SERVER_DOWN);
         }
         finally {
             if(m_connection != null)
@@ -218,9 +235,9 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.d(LOG_TAG, "Could not connect to server.");
             }
         }
-        catch(Exception e)
-        {
-            Log.e(LOG_TAG,e.getMessage());
+        catch(JSONException e){
+            Utilies.saveSyncStatus(getContext(), SYNC_STATUS_SERVER_INVALID);
+            Log.e(LOG_TAG, e.getMessage());
         }
     }
 
@@ -365,10 +382,9 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
             inserted_data = mContext.getContentResolver().bulkInsert(
                     DatabaseContract.BASE_CONTENT_URI,insert_data);
 
-            // TODO notify extra listeners for data change.
             updateWidgets();
 
-            //Log.v(LOG_TAG,"Succesfully Inserted : " + String.valueOf(inserted_data));
+            Utilies.saveSyncStatus(getContext(), SYNC_STATUS_OK);
         }
         catch (JSONException e)
         {
