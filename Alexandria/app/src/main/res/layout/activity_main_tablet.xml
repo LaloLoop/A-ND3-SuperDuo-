@@ -17,7 +17,10 @@
 
         <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
-        <FrameLayout android:id="@+id/container"
+        <fragment
+            android:id="@+id/container"
+            android:name="it.jaschke.alexandria.ListOfBooks"
+            tools:layout="@layout/fragment_list_of_books"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

@@ -8,13 +8,13 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import it.jaschke.alexandria.api.Callback;
@@ -25,6 +25,8 @@ public class MainActivity extends ActionBarActivity implements
         BookDetail.BookDetailCallback{
 
     private static final String DETAIL_FRAGMENT = "DETAIL_BOOK_F";
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String L_FRAG_TAG = "l_frag";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -60,7 +62,17 @@ public class MainActivity extends ActionBarActivity implements
 
         // Set up the drawer.
         navigationDrawerFragment.setUp(R.id.navigation_drawer,
-                    (DrawerLayout) findViewById(R.id.drawer_layout));
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Add list fragment only once, as the base fragment.
+        if(!IS_TABLET) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, new ListOfBooks())
+                    .addToBackStack(L_FRAG_TAG)
+                    .commit();
+        }
     }
 
     @Override
@@ -69,24 +81,48 @@ public class MainActivity extends ActionBarActivity implements
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment;
 
+        // Clear backstack to leave list fragment as base.
+        clearFragmentBackstack(fragmentManager);
+        
         switch (position){
-            default:
-            case 0:
-                nextFragment = new ListOfBooks();
-                break;
             case 1:
                 nextFragment = new AddBook();
                 break;
             case 2:
                 nextFragment = new About();
                 break;
-
+            default:
+                nextFragment = null;
         }
+        
+        if(nextFragment != null) {
+            int id = R.id.container;
 
-        // Do not add to back stack to prevent confusion.
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, nextFragment)
-                .commit();
+            if(IS_TABLET){
+                id = R.id.right_container;
+            }
+
+            // Do not add to back stack to prevent confusion.
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+
+            ft.replace(id, nextFragment);
+            if(!IS_TABLET) {
+                ft.addToBackStack(null);
+            }
+            ft.commit();
+        }
+    }
+
+    private void clearFragmentBackstack(FragmentManager fm) {
+        int delta = 1;
+        int count = fm.getBackStackEntryCount();
+        if(IS_TABLET) {
+            delta = 0;
+        }
+        for(int i=0 ; i < count - delta ; i++ ) {
+            fm.popBackStack();
+        }
+        
     }
 
     public void setTitle(int titleId) {
@@ -139,7 +175,7 @@ public class MainActivity extends ActionBarActivity implements
     public void onItemSelected(String ean) {
         int id = R.id.container;
 
-        if(findViewById(R.id.right_container) != null){
+        if(IS_TABLET){
             id = R.id.right_container;
         }
 
@@ -147,14 +183,19 @@ public class MainActivity extends ActionBarActivity implements
         args.putString(BookDetail.EAN_KEY, ean);
         args.putBoolean(BookDetail.TWO_PANE_MODE, IS_TABLET);
 
-        BookDetail fragment = BookDetail. newInstance(this);
+        BookDetail fragment = BookDetail.newInstance(this);
         fragment.setArguments(args);
 
+        FragmentManager fm = getSupportFragmentManager();
+        clearFragmentBackstack(fm);
         // Stack get replaced with invalid view when changing between items in list. Did not add
         // to back stack.
-        getSupportFragmentManager().beginTransaction()
-                .replace(id, fragment, DETAIL_FRAGMENT)
-                .commit();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(id, fragment);
+        if(!IS_TABLET) {
+            ft.addToBackStack(null);
+        }
+        ft.commit();
 
     }
 
@@ -178,10 +219,6 @@ public class MainActivity extends ActionBarActivity implements
         }
     }
 
-    public void goBack(View view){
-        onNavigationDrawerItemSelected(0);
-    }
-
     private boolean isTablet() {
         return (getApplicationContext().getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
@@ -190,7 +227,7 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount()<2){
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1){
             finish();
         }
         super.onBackPressed();
