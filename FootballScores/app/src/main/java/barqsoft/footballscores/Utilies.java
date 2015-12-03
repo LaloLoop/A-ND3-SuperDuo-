@@ -198,6 +198,11 @@ public class Utilies
                 ScoresSyncAdapter.SYNC_STATUS_UNKNOWN);
     }
 
+    /**
+     * Check if netowrk is accessible
+     * @param context   App context
+     * @return  true if connected or connecting
+     */
     public static boolean checkNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();

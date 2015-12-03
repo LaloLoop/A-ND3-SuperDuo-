@@ -101,6 +101,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
         mScoresAdapter.swapCursor(cursor);
 
+        // Check possible errors with network or service synchronization.
         updateEmptyView();
     }
 
