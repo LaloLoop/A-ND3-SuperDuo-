@@ -40,7 +40,6 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
     private BookDetailCallback mListener;
 
     ActionReceiver mActionReceiver;
-    private boolean mTwoPane = false;
 
     public static final String ACTION_EVENT_BOOK_DELETED = "aeventdeleted";
 
@@ -68,7 +67,6 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         if (arguments != null) {
             ean = arguments.getString(EAN_KEY);
             getLoaderManager().restartLoader(LOADER_ID, null, this);
-            mTwoPane = arguments.getBoolean(TWO_PANE_MODE);
         }
 
         rootView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
@@ -132,10 +130,14 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         String desc = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.DESC));
         ((TextView) rootView.findViewById(R.id.fullBookDesc)).setText(desc);
 
+        // Authors may be null.
+        // Check was added on book add but not here.
         String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
-        String[] authorsArr = authors.split(",");
+        String[] authorsArr = authors != null ? authors.split(",") : new String[0];
         ((TextView) rootView.findViewById(R.id.authors)).setLines(authorsArr.length);
-        ((TextView) rootView.findViewById(R.id.authors)).setText(authors.replace(",","\n"));
+        String authorsContent = authors != null ? authors.replace(",","\n") : "";
+        ((TextView) rootView.findViewById(R.id.authors)).setText(authorsContent);
+
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
         if(Patterns.WEB_URL.matcher(imgUrl).matches()){
             new DownloadImage((ImageView) rootView.findViewById(R.id.fullBookCover)).execute(imgUrl);
@@ -144,12 +146,6 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
         String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
         ((TextView) rootView.findViewById(R.id.categories)).setText(categories);
-
-        // This view does not exist on the root view, this will never happen.
-        /*if(rootView.findViewById(R.id.right_container)!=null){ */
-        if(mTwoPane) {
-            rootView.findViewById(R.id.backButton).setVisibility(View.INVISIBLE);
-        }
 
     }
 
